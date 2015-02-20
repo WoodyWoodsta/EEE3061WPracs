@@ -38,29 +38,38 @@ void main(void) {
 	lcd_string("Hello World!!");
 
 	for (;;) {
-		for (delay_counter = 0; delay_counter < 655350; delay_counter++)
-			;
-		GPIOB->ODR = 0xAA;
-
-		for (delay_counter = 0; delay_counter < 655350; delay_counter++)
-			;
-		GPIOB->ODR = 0x55;
 
 		// == TASK 2
-		uint8_t ADCValue = RegularConvData_Tab[1];
-		static uint8_t lastADCValue;
-		if (ADCValue != lastADCValue) {
+		uint8_t pot0Value = RegularConvData_Tab[0]/2.56;
+		uint8_t pot1Value = RegularConvData_Tab[1]/2.56;
+		static uint8_t lastPot0Value;
+		static uint8_t lastPot1Value;
+
+		if (pot1Value != lastPot1Value) {
 			lcd_command(LCD_GOTO_LINE_2); // Make sure we are on line two
 			lcd_string("   "); // Clear leftovers
 			lcd_command(LCD_GOTO_LINE_2); // Make sure we are on line two
-			LCD_display_uint8(RegularConvData_Tab[1]);
+			LCD_display_uint8(pot1Value);
 
-			lastADCValue = ADCValue;
+			lastPot1Value = pot1Value;
+		} else {
+			for (delay_counter = 0; delay_counter < 655350; delay_counter++)
+				;
+			GPIOB->ODR = 0xAA;
+
+			for (delay_counter = 0; delay_counter < 655350; delay_counter++)
+				;
+			GPIOB->ODR = 0x55;
+
 		}
 
-		// == TASK 3
+		// == TASK 3 and 4
+		if (pot0Value != lastPot0Value) {
+			setGreen(pot0Value);
+			setRed(100 - pot0Value);
 
-		// == TASK 4
+			lastPot0Value = pot0Value;
+		}
 
 	}
 }
