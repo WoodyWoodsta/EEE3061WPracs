@@ -47,6 +47,16 @@ void main(void) {
 		GPIOB->ODR = 0x55;
 
 		// == TASK 2
+		uint8_t ADCValue = RegularConvData_Tab[1];
+		static uint8_t lastADCValue;
+		if (ADCValue != lastADCValue) {
+			lcd_command(LCD_GOTO_LINE_2); // Make sure we are on line two
+			lcd_string("   "); // Clear leftovers
+			lcd_command(LCD_GOTO_LINE_2); // Make sure we are on line two
+			LCD_display_uint8(RegularConvData_Tab[1]);
+
+			lastADCValue = ADCValue;
+		}
 
 		// == TASK 3
 
