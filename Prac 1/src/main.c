@@ -26,7 +26,7 @@ uint8_t val0;
 uint8_t val1;
 uint8_t RegularConvData_Tab[2];
 
-void main(void) {
+int main(void) {
   volatile uint32_t delay_counter = 0;
   uint32_t i = 0;
   init_PWM();
@@ -72,6 +72,8 @@ void main(void) {
     }
 
   }
+
+  return 0;
 }
 
 void init_adc_POTs(void) {
